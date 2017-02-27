@@ -4,9 +4,6 @@
 	<artifactId>docu-conf</artifactId>
 	<name> + docu-conf</name>
 
-	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-	<!-- ~ Parent 					~ -->
-	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 	<parent>
 		<groupId>com.github.clun.docudb</groupId>
 		<artifactId>docu-parent</artifactId>

@@ -24,28 +24,37 @@
 	
 	<features>
 	
-		<feature uid="modeSimulation" enable="false" 
+		<feature uid="simulation" enable="false" 
 				 description="Les écritures en base de donnees ne sont pas réalisées" />
 	
 		<feature uid="handleSerie" enable="false" 
-				 description="Gestion des series" />
+				 description="Le batch réalise l'analyse des séries." />
 				 
 		<feature uid="handleDocus" enable="true" 
-				 description="Gestion des documentaires" />
+				 description="Le batch réalise l'analyse des documentaires solo (non rattaché à une série)." />
+
 	
+		<feature uid="searchDocumentairesNotFound" enable="true"
+				description="Documentaire non trouvé sur disque mais recherche partout en cas de déplacement" />
+
+		<feature uid="deleteDocumentairesNotFound" enable="false"
+				description="Si un docu est dans la base et pas sur disque on le supprime (il sera recree derrière)" />		
+
+		<feature uid="stopOnDocumentairesNotFound" enable="false"
+				description="Si des fichiers sont en base et pas sur disque on arrete le batch" />
+				
 	</features>
 	
 	<properties>	
 	 
 	 	<!-- Répertoire de travail -->
-		<property name="targetFolder"  value="D:/Documentaires/Biologie et Santé" />
+		<property name="targetFolder"  value="D:/Documentaires" />
 		
 		<!-- Connection BDD -->
 		<property name="db.sql.driverclassName" value="com.mysql.jdbc.Driver" />
 		<property name="db.sql.url" 			value="jdbc:mysql://localhost:3306/documentaires?useEncoding=true&amp;characterEncoding=UTF-8" />
 		<property name="db.sql.username" 		value="docu" />
 		<property name="db.sql.password" 		value="docu" />
-		
 	 
 	</properties>
 	

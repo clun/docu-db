@@ -48,6 +48,10 @@ public class DocumentaryDbDao extends AbstractDaoSupport {
             "SELECT * FROM t_documentaire WHERE ID = ? ";
     
     /** Query. */
+    private static final String QUERY_DOCU_DELETE_BYID = 
+            "DELETE FROM t_documentaire WHERE ID = ? ";
+    
+    /** Query. */
     private static final String QUERY_CREATE = 
             "INSERT INTO t_documentaire (ID, TITRE, TITRE_ORIGINAL, DESCRIPTION, "
            + "REALISATEUR, ANNEE, DUREE, IMAGE, GENRE, PAYS, LANGUE, SOUSTITRES, NOTE, VU, TAILLE, FORMAT, "
@@ -62,19 +66,32 @@ public class DocumentaryDbDao extends AbstractDaoSupport {
             "UPDATE t_documentaire SET TITRE=?, TITRE_ORIGINAL=?, DESCRIPTION=?, ANNEE=?, DUREE=?, "
             + "IMAGE=?, PAYS=?, LANGUE=?, SOUSTITRES=?, NOTE=?, VU=?, TAILLE=?, FORMAT=?, QUALITE=?, RESOLUTION=? "
             + "WHERE ID = ?";
+    
+    private static final String UPDATE_DOCU_GENRE = "UPDATE t_documentaire SET GENRE=? WHERE ID=?";
+    
 
     /** RowMapper. */
     private static final DocumentaireListElementRowMapper DOCU_ROW_MAPPER = new DocumentaireListElementRowMapper();
             
     /** RowMapper. */
     private static final DocumentaireDetailRowMapper FULL_ROWMAPPER = new DocumentaireDetailRowMapper();
-            
+     
+    /**
+     * Supprime un documentaire depuis son identifiant.
+     *
+     * @param idDocu
+     *      identifiant documentaire
+     */
+    public void deleteById(int idDocu) {
+        getJdbcTemplate().update(QUERY_DOCU_DELETE_BYID, idDocu);
+    }
+    
     /**
      * Tester l'existence d'une entrée dans la table t_Documentaire.
      */
     public boolean exist(String titre, int genre) {
         return getJdbcTemplate().queryForObject(QUERY_EXIST, Integer.class, titre.toUpperCase().trim(), genre) > 0;
-    }   
+    }
     
     public List < DocumentaireListElementDto > list() {
         return getJdbcTemplate().query(QUERY_GETDOCUMENTARYLIST, DOCU_ROW_MAPPER);
@@ -112,11 +129,15 @@ public class DocumentaryDbDao extends AbstractDaoSupport {
                 ep.getTitre(), 
                 ep.getAnnee(), ep.getDuree() / 1000 / 60, 
                 ep.getGenre(),
-                ep.getTaille() /1024 / 1024,
+                ep.getTaille(),
                 ep.getFormatCode(), 
                 ep.getBitrate(), 
                 ep.getQualite(),
                 ep.getResolution());
+    }
+    
+    public void updateGenre(int idDocu, int idGenre) {
+        getJdbcTemplate().update(UPDATE_DOCU_GENRE, idGenre, idDocu);
     }
     
     public void update(DocumentaireDetail docu) {

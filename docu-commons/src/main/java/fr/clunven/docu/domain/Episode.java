@@ -1,6 +1,6 @@
 package fr.clunven.docu.domain;
 
-import fr.clunven.docu.media.MovieMetadata;
+import com.github.clun.movie.domain.MovieMetadata;
 
 /**
  * Simple Episode.
