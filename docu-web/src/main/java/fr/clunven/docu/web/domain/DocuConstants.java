@@ -14,23 +14,25 @@ public interface DocuConstants {
 	String VIEW_DOCUMENTAIRE_UPDATE  = "documentaireUpdate";
 	String VIEW_DOCUMENTAIRE_DISPLAY = "documentaireDisplay";
 
+	String VIEW_SERIE_GEN            = "seriesByGenre";
 
-	String BEAN_USER            = "userbean";
-    String BEAN_MENU            = "menubean";
-    String BEAN_REF_FORMAT      = "refFormat";
-    String BEAN_REF_LANGUE      = "refLangue";
-    String BEAN_REF_PAYS        = "refPays";
-    
-    String BEAN_LISTDOCU        = "doculist";
-    String BEAN_DOCUBYGENRE     = "listdocubean";
-    String BEAN_GENRE           = "genre";
-    String BEAN_DOCUDETAIL		= "docuDetail";
+	String BEAN_USER                 = "userbean";
+    String BEAN_MENU                 = "menubean";
+    String BEAN_REF_FORMAT           = "refFormat";
+    String BEAN_REF_LANGUE           = "refLangue";
+    String BEAN_REF_PAYS             = "refPays";
 
+    String BEAN_LISTDOCU             = "doculist";
+    String BEAN_DOCUBYGENRE          = "listdocubean";
+    String BEAN_SERIEBYGENRE         = "listSeriesbean";
+
+    String BEAN_GENRE                = "genre";
+    String BEAN_DOCUDETAIL		     = "docuDetail";
 
 	// Session Attributes
 	String PARAM_ERRORS = "errors";
 	String PARAM_MSG    = "successMessages";
-	
+
 	// Role names
 	String ROLE_USER    = "USER";
 	String ROLE_ADMIN   = "ADMIN";

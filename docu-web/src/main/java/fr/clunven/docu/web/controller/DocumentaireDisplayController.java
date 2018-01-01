@@ -56,7 +56,7 @@ public class DocumentaireDisplayController extends BaseController {
         mav.addObject(BEAN_DOCUDETAIL, dd);
 
         // Affichage du menu de gauche
-        mav.addObject(BEAN_MENU, menuService.getMenuDocumentairesByGenre());
+        mav.addObject(BEAN_MENU, menuService.getMenuGenre());
         return mav;
     }
 

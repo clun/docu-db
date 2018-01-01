@@ -25,6 +25,10 @@ public class DocumentaryDbDao extends AbstractDaoSupport {
     private static final String QUERY_EXIST =
             "SELECT COUNT(*) FROM t_documentaire WHERE UPPER(TITRE) LIKE ? AND GENRE = ?";
  
+    /** Query. */
+    private static final String QUERY_LIST_TITRE = 
+            "SELECT * FROM t_documentaire WHERE UPPER(TITRE) LIKE ?"; 
+    
     /** list documentary. */
     private static final String QUERY_GETDOCUMENTARYLIST =
             "SELECT D.ID, D.TITRE, D.ANNEE, D.VU, G.nom as GENRE "
@@ -69,6 +73,12 @@ public class DocumentaryDbDao extends AbstractDaoSupport {
     
     private static final String UPDATE_DOCU_GENRE = "UPDATE t_documentaire SET GENRE=? WHERE ID=?";
     
+    private static final String COUNT_DOCU = "select count(*) from t_documentaire";
+    
+    private static final String COUNT_DOUBLON = 
+            "SELECT COUNT(*) FROM ("
+            + " SELECT ID, TITRE, COUNT(*) AS NB FROM `t_documentaire` GROUP BY TITRE"
+            + ") AS DATA WHERE NB > 1";
 
     /** RowMapper. */
     private static final DocumentaireListElementRowMapper DOCU_ROW_MAPPER = new DocumentaireListElementRowMapper();
@@ -76,6 +86,16 @@ public class DocumentaryDbDao extends AbstractDaoSupport {
     /** RowMapper. */
     private static final DocumentaireDetailRowMapper FULL_ROWMAPPER = new DocumentaireDetailRowMapper();
      
+    /** Count value. */
+    public long count() {
+        return getJdbcTemplate().queryForObject(COUNT_DOCU, new SingleColumnRowMapper<Long>());
+    }
+    
+    /** Count value. */
+    public long countDoublons() {
+        return getJdbcTemplate().queryForObject(COUNT_DOUBLON, new SingleColumnRowMapper<Long>());
+    }
+    
     /**
      * Supprime un documentaire depuis son identifiant.
      *
@@ -91,6 +111,10 @@ public class DocumentaryDbDao extends AbstractDaoSupport {
      */
     public boolean exist(String titre, int genre) {
         return getJdbcTemplate().queryForObject(QUERY_EXIST, Integer.class, titre.toUpperCase().trim(), genre) > 0;
+    }
+    
+    public List < DocumentaireListElementDto > searchByTitre(String titre) {
+        return getJdbcTemplate().query(QUERY_LIST_TITRE, DOCU_ROW_MAPPER, titre.toUpperCase().trim());
     }
     
     public List < DocumentaireListElementDto > list() {

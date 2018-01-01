@@ -31,7 +31,7 @@ public class BatchDocu {
        
         long start = System.currentTimeMillis();
         //appCtx.getBean(BatchDocuServices.class).run();
-        appCtx.getBean(BatchDocuServices.class).analyseRepertoire(new File("D:/Documentaires/Environnement et Climat"));
+        appCtx.getBean(BatchDocuServices.class).analyseRepertoire(new File("D:/Documentaires/Nature"));
         
         long executionTime = System.currentTimeMillis() - start;
         logger.info("Traitement Terminé en " + BatchUtils.formatExecutionTime(executionTime));

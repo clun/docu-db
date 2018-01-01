@@ -4,20 +4,24 @@
   <%@ include file="/jsp-tiles/header.jsp" %>
   <decorator:head />
 </head>
- <body class="lockscreen">
-     
+ <body class="skin-blue">
+
+	 <!-- Bandeau avec logout, alert et profile -->
+	 <%@ include file="/jsp-tiles/navbar.jsp" %>
+
 	 <!-- Wrapper -->
 	 <div class="wrapper row-offcanvas row-offcanvas-left">
-	
+
+	 <!-- Bandeau avec logout, alert et profile -->
+	 <%@ include file="/jsp-tiles/menu-genre-series.jsp" %>
+
 	  <!-- Right side column. Contains the navbar and content of the page -->
-      <decorator:body/>
-      
+      <aside class="right-side">
+       <decorator:body/>
+      </aside>
+
      </div><!-- ./wrapper -->
-  	
-  	<video autoplay loop id="bgvid">
-		<source src="<c:url value='img/background/video2.mp4'/>" type="video/mp4" />
-	</video>
-	
+
      <!-- Footer -->
      <%@ include file="/jsp-tiles/footer.jsp"%>
 
@@ -25,4 +29,4 @@
 </html>
 
 
-	
+

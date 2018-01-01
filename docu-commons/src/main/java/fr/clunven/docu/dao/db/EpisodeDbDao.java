@@ -2,6 +2,7 @@ package fr.clunven.docu.dao.db;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.SingleColumnRowMapper;
 import org.springframework.stereotype.Repository;
 
 import fr.clunven.docu.dao.db.rowmapper.EpisodeRowMapper;
@@ -15,6 +16,14 @@ public class EpisodeDbDao extends AbstractDaoSupport {
     
     /** Row Mapper instance. */
     private EpisodeRowMapper EP_ROW_MAPPER = new EpisodeRowMapper();
+    
+    /** Serie exist with name. */
+    private static String QUERY_COUNT_EPISODE = "SELECT COUNT(*) FROM t_episode";
+    
+    /** Count value. */
+    public long count() {
+        return getJdbcTemplate().queryForObject(QUERY_COUNT_EPISODE, new SingleColumnRowMapper<Long>());
+    }
     
     /** Check episode exist. */
     public boolean exist(String titre, int serie, int saison, int nb) {

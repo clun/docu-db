@@ -36,7 +36,8 @@ Class-Path: lib/cannys-core-1.0-SNAPSHOT.jar lib/mongo-java-driver-2.1
  avax.inject-1.jar lib/spring-social-google-1.0.0.RELEASE.jar lib/spri
  ng-social-config-1.1.0.RELEASE.jar lib/jackson-core-2.6.3.jar lib/jac
  kson-databind-2.6.3.jar lib/jackson-annotations-2.6.3.jar lib/commons
- -dbcp2-2.1.1.jar lib/commons-pool2-2.4.2.jar
+ -dbcp2-2.1.1.jar lib/commons-pool2-2.4.2.jar lib/ff4j-core-1.6.2.jar 
+ lib/ff4j-aop-1.6.2.jar
 Created-By: Apache Maven 3.2.2
 Build-Jdk: 1.8.0_11
 Specification-Version: 1.0-SNAPSHOT

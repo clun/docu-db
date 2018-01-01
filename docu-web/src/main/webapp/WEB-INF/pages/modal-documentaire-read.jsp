@@ -18,13 +18,12 @@
   	 <tr>
   	  <td style="width:150px">
   		<img id="imgcover" style="position:absolute;top:20px;height:180px;width:130px;border:1px solid #CCCCCC;" />
-  		 <div style="position:absolute;top:210px;left:40px">
-  			<span class="glyphicon glyphicon-star" style="color:#DDDD00"></span>
-  		 	<span class="glyphicon glyphicon-star" style="color:#DDDD00"></span>
-  		 	<span class="glyphicon glyphicon-star" style="color:#DDDD00"></span>
-  		 	<span class="glyphicon glyphicon-star"></span>
-  		 	<span class="glyphicon glyphicon-star"></span>
-  		 </div>
+  		<div style="position:absolute;top:210px;left:40px;font-size:12px">
+  		  <span style="font-weight:bold;">Note </span> <span id="docuNote" style="font-size:14px"></span>
+  		</div>
+  		<div style="position:absolute;top:230px;left:40px;font-size:12px">
+  		 <span style="font-weight:bold;">Qual </span><span id="qualite" style="font-size:14px"></span>
+  		</div>
   	</td>
   	<td style="padding-top:0px">
   		<p style="font-weight:bold;font-size:12px"/>Titre Original : 
@@ -87,7 +86,26 @@ function callAPIDocuEdit(uid) {
 		$("#modalRead #imgpays").attr('src', 'data:image/jpg;base64,' + docu.paysIcone);
 		$("#modalRead #imglang").attr('src', 'data:image/jpg;base64,' + docu.langueIcone);
 		$("#modalRead #link2Edit").attr('data-uid', docu.id);
+		$("#modalRead #docuNote").html(formatStars(docu.note));
+		$("#modalRead #qualite").html(formatStars(docu.qualite));
 	});
+}
+
+function formatStars(note) {
+	// Process Stars
+	var htmlContentStars = '';
+	var currentNote      = 1;
+	while (currentNote < 10) {
+		if (currentNote > note) {
+			htmlContentStars = htmlContentStars + '<i class="fa fa-star" style="color:#DDDDDD"></i>&nbsp;'
+		} else if (currentNote == note) {
+			htmlContentStars = htmlContentStars + '<i class="fa fa-star-half" style="color:#DDDD00"></i>&nbsp;'
+		} else {
+			htmlContentStars = htmlContentStars + '<i class="fa fa-star" style="color:#DDDD00"></i>&nbsp;'
+		}
+		currentNote = currentNote + 2;
+	}
+	return htmlContentStars;
 }
 
  $(document).on("click", ".openModalRead", function () {

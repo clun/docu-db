@@ -41,7 +41,9 @@
 				<c:if test="${param.error != null}">
 					<center>
 						<span style="color: red">
-						<i class="fa fa-ban"></i> Utilisateur non authoris&eacute;</span>
+						<i class="fa fa-ban"></i> Impossible de se connecter. 
+						<p/><br/><span style="font-style:italic;color:#888888"/>Vérifier
+						vos identifiants mais aussi de la base de données est bien démarrée.</li></ul></span>
 					</center>
 				</c:if>
 

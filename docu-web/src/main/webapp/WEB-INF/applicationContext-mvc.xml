@@ -38,5 +38,9 @@
         <property name="validatorFactory" ref="validatorFactory"/>
     </bean>
     
+    <bean id="ff4j" class="org.ff4j.FF4j" >
+     	<constructor-arg value="ff4j.xml" />
+    </bean>
+    
     
 </beans>

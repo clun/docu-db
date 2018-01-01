@@ -4,7 +4,7 @@ public class SubGenreDto {
 
     private GenreDto subgenre;
     
-    private int nb;
+    private int nb = 0;
 
     /**
      * Getter accessor for attribute 'subgenre'.

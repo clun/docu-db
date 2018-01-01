@@ -9,80 +9,44 @@ $( document ).ready(function() {
 <aside class="left-side sidebar-offcanvas">
 	<section class="sidebar">
 		<ul class="sidebar-menu collapsibleList" style="font-weight: normal;">
-			<ul class="sidebar-menu collapsibleList">
-		   <li>
-		    <a href="<c:url value='/documentaire.htm'/>" style="font-weight: normal; color: #3c8dbc">
-		      <i class="fa fa-list"></i>&nbsp;Liste Globale
-			</a>
-		  </li>
-		   <li>
-		    <a href="<c:url value='/documentaireByGenre.htm?genre=23'/>" style="font-weight: normal; color: #3c8dbc">
-		      <i class="fa fa-film"></i>&nbsp;Documentaires
-			</a>
-		  </li>
-		  <li>
-		    <a href="<c:url value='/home.htm'/>" style="font-weight: normal; color: #3c8dbc">
-		      <i class="fa fa-video-camera"></i>&nbsp;S&eacute;ries
-			</a>
-		  </li>
-		</ul>
-			</ul>
-		
-		<ul class="sidebar-menu" style="font-weight: normal;">
-			<ul class="sidebar-menu collapsibleList">
-		  <li style="background-color: #85144b; color: white; padding-left: 15px; font-weight: normal;">
-		    <i class="fa fa-laptop"></i>
-			Perso
-		  </li>
-		  <li>
-		    <a href="<c:url value='/home.htm'/>" style="font-weight: normal; color: #3c8dbc">
-		      <i class="fa fa-eye"></i>A regarder
-			</a>
-		  </li>
-		   <li>
-		    <a href="<c:url value='/home.htm'/>" style="font-weight: normal; color: #3c8dbc">
-		      <i class="fa fa-download"></i>Wish List
-			</a>
-		  </li>
-	      </ul>
-			</ul>
-	      
-		
+		 <ul class="sidebar-menu collapsibleList">
 		  
-		  
-		
-		<ul class="sidebar-menu" style="font-weight: normal;">
-			<ul class="sidebar-menu collapsibleList">
-		  <li style="background-color: #003040; color: #AAAAAA; padding-left: 15px; font-weight: normal;">
-		    <i class="fa fa-laptop"></i>
-			<fmt:message key="menu.admin.title" />
-		  </li>
-		  <li>
-		    <a href="<c:url value='/dashboard.htm'/>" style="color: #3c8dbc">
-			  <i class="fa fa-dashboard"></i>
-			  Analytics
-		    </a>
-		  </li>
-		  <li>
-		    <a href="<c:url value='/userAdministration.htm'/>" style="color: #3c8dbc"">
-		      <i class="fa fa-users"></i>
-		      <fmt:message key="menu.admin.users" />
-			</a>
-		  </li>
 		   <li>
-		    <a href="<c:url value='/userAdministration.htm'/>" style="color: #3c8dbc"">
-		      <i class="fa fa-users"></i>
-		      Batch Synchro
+		    <a href="<c:url value='/home.htm'/>" style="font-weight: normal; color: #F0F8FF">
+		     <i class="fa fa-home" style="color:#3c8dbc"></i>&nbsp;Home
 			</a>
 		  </li>
+		
+		  <li>
+		    <a href="<c:url value='/documentaireByGenre.htm?genre=23'/>" style="font-weight: normal; color: #F0F8FF">
+		     <i class="fa fa-film" style="color:#3c8dbc"></i>&nbsp;Documentaires
+			</a>
+		  </li>
+		  
+		  <li>
+		    <a href="<c:url value='/seriesByGenre.htm?genre=7'/>" style="font-weight: normal; color: #F0F8FF">
+		      <i class="fa fa-video-camera" style="color:#3c8dbc"></i>&nbsp;S&eacute;ries
+			</a>
+		  </li>
+		  
+		  <li>
+		    <a href="<c:url value='/documentaire.htm'/>" style="font-weight: normal; color: #F0F8FF">
+		      <i class="fa fa-list" style="color:#3c8dbc"></i>&nbsp;Rechercher
+			</a>
+		  </li>
+		 
+		  <li>
+		    <a href="<c:url value='/batchSynchro.htm'/>"  style="font-weight: normal; color: #F0F8FF">
+		       <i class="fa fa-users" style="color:#3c8dbc"></i>&nbsp;Batch Synchro
+			</a>
+		  </li>
+		  
 	      </ul>
 			</ul>
 	      
 	      
-         </ul>
 	</section>
 	<!-- /.sidebar -->
-	
 	
 
 </aside>

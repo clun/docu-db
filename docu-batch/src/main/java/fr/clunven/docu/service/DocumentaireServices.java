@@ -3,6 +3,7 @@ package fr.clunven.docu.service;
 import static java.util.Arrays.stream;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -21,6 +22,7 @@ import com.github.clun.movie.MovieMetadataParser;
 import fr.clunven.docu.dao.FileSystemDao;
 import fr.clunven.docu.dao.ValidationDao;
 import fr.clunven.docu.dao.db.DocumentaryDbDao;
+import fr.clunven.docu.dao.db.dto.DocumentaireListElementDto;
 import fr.clunven.docu.dao.db.dto.GenreDto;
 import fr.clunven.docu.domain.ComparaisonFsDb;
 import fr.clunven.docu.domain.Documentaire;
@@ -71,46 +73,91 @@ public class DocumentaireServices {
     public void analyseDocumentaires(GenreDto currentGenre, File currentFolder) {
         
         // Liste des documentaires avec cet identifiant de genre dans la base
-        Map < String, Integer >       docusDB = docuDbDao.getDocumentaireNamesMapByGenre(currentGenre.getId());
+        Map < String, Integer > docusDB = docuDbDao.getDocumentaireNamesMapByGenre(currentGenre.getId());
 
         // Liste des documentaires sur le disque (on filtre les séries et les genres '--')
         Map < String, SmartFileName > docusFS = listeDocumentaires(currentFolder);
         
         // Comparaison des deux listes
         ComparaisonFsDb fsdb = validationService.compareFSandDb(docusFS.keySet(), docusDB.keySet());
+        
         if (!fsdb.getNotOnFileSystem().isEmpty()) {
-            
-            logger.warn("Il existe des documentaires en base qui ne sont pas sur le disque");
-            
-            // Stop immediately
-            if (ff4j.check(stopOnDocumentairesNotFoundSurDisque.getUid())) {
-                System.exit(-10);
-            }
-            
-            for(String titre : fsdb.getNotOnFileSystem()) {
-                int id = docusDB.get(titre);
-                if (ff4j.check(searchDocumentairesNotFoundSurDisque.getUid())) {
-                    Optional<Integer> alterGenre = searchGenreFromDisk(titre);
-                    if (alterGenre.isPresent()) {
-                        logger.warn(" ?? " + titre + "(" + id + ") : Updating with id " + alterGenre.get());
-                        if (!ff4j.check(simulation.getUid())) {
-                            docuDbDao.updateGenre(id, alterGenre.get());
-                        }
-                    } else {
-                        logger.warn(" ?? " + titre + "(" + id + ") : No alternative found" );
-                    }
-                    
-                } else if (ff4j.check(deleteDocumentairesNotFoundSurDisque.getUid())) {
-                    logger.warn("Deleting id=" + id + "...");
-                    if (!ff4j.check(simulation.getUid())) {
-                        docuDbDao.deleteById(id);
-                    }
-                }
-            }
+            processDocumentairesNotOnDisk(docusDB, fsdb);
         }
         
         // On analyse tous les documentaires (certains update)
         docusFS.values().stream().forEach(sfm -> analyseDocumentaire(sfm, currentGenre.getId()));
+    }
+
+    /**
+     * Process Documentaires not on disk, only in DB.
+     *
+     * @param docusDB
+     *      current documentary in DB
+     * @param fsdb
+     *      comparison betwwen disk and DB
+     */
+    private void processDocumentairesNotOnDisk(Map<String, Integer> docusDB, ComparaisonFsDb fsdb) {
+        logger.warn("Il existe des documentaires en base qui ne sont pas sur le disque");
+        
+        // Stop immediately if expected as feature
+        if (ff4j.check(stopOnDocumentairesNotFoundSurDisque.getUid())) {
+            System.exit(-10);
+        }
+        
+        // Boucle sur chaque documentaire
+        for(String titre : fsdb.getNotOnFileSystem()) {
+            // Essaie de retrouver le fichier ailleur sur le disque et mettre à jour le genre
+            if (ff4j.check(searchDocumentairesNotFoundSurDisque.getUid())) {
+                searchAndReplaceGenre(titre, docusDB.get(titre));
+            }
+        }
+    }
+
+    /**
+     * Essaie de retrouver le fichier ailleur sur le disque et mettre à jour le genre.
+     *
+     * @param titre
+     *      titre du documentaire
+     * @param id
+     *      son identifiant dans la base de données
+     */
+    private void searchAndReplaceGenre(String titre, int id) {
+        Optional<Integer> alterGenre = searchGenreFromDisk(titre);
+        
+        if (alterGenre.isPresent()) {
+            logger.info(titre + "(id=" + id + ") : Updating with id " + alterGenre.get());
+            if (!ff4j.check(simulation.getUid())) {
+                docuDbDao.updateGenre(id, alterGenre.get());
+            }
+        } else {
+            logger.warn(" ==> " + titre + "(" + id + ") : No alternative found" );
+        }
+        
+    }
+    
+    /**
+     * Un documentaire est dans la base mais pas sur le disque. Il a peut être été déplacé. 
+     * L'idée est de simplement mettre à jour le genre pour ne pas tout refaire.
+     * Pour le calculer on reparcourt tout le dique pour retrouver le genre associé (s'il existe).
+     *
+     * <ul>
+     *   <li> Cela facilite les déplacements dans les répertoires.
+     *   <li> Cela permet de retrouver les mapings en cas d'erreur
+     * </ul>
+     *
+     * @param titre
+     *       cordialement
+     * @return
+     *       le genre correct ou empty si pas trouvé 
+     */
+    private Optional <Integer> searchGenreFromDisk(String titreDocumentaire) {
+        Optional< SmartFileName > sfn = fileSystemDao.getDocumentaireFileByTitre(titreDocumentaire);
+        if (sfn.isPresent()) {
+            File genreFolder = sfn.get().getCurrentFolder().getParentFile();
+            return Optional.of(genreService.getGenreIdFromFolderName(genreFolder));
+        }
+        return Optional.empty();
     }
     
     /**
@@ -142,42 +189,34 @@ public class DocumentaireServices {
                             .forEach(docu::updateMovieMetaData);
        
        if (!docuDbDao.exist(docu.getTitre(), idGenre)) {
-           logger.info("-> Create " + docu);
-           if (!ff4j.check(simulation.getUid())) {
-               docuDbDao.create(docu);
-           }
+           logger.info("+ NotFound in same directory " + docu);
+           processNotFoundInDb(idGenre, docu);
            
        } else if (docu.getFormat() == null || "".equals(docu.getFormat())) {
-           logger.info("-> Update " + docu);
+           logger.info("+ Update Format :" + docu);
            if (!ff4j.check(simulation.getUid())) {
                docuDbDao.updateMetaData(idGenre, docu);
            }
        }
    }
+
+    private void processNotFoundInDb(int idGenre, Documentaire docu) {
+        // Recherche d'un documentaire de même titre
+           List < DocumentaireListElementDto > listDocu = docuDbDao.searchByTitre(docu.getTitre());
+           if (listDocu != null && listDocu.size() ==1 ) {
+               logger.info("+ Found in other directory (update) " + listDocu.get(0).toString());
+               if (!ff4j.check(simulation.getUid())) {
+                   docuDbDao.updateGenre(listDocu.get(0).getId(), idGenre);
+               }
+           } else {
+               logger.info("+ Create new " + docu.toString());
+               if (!ff4j.check(simulation.getUid())) {
+                   docuDbDao.create(docu);
+               }
+           }
+    }
    
-   /**
-    * Un documentaire est dans la base mais pas sur le disque. Il a peut être été déplacé. 
-    * L'idée est de simplement mettre à jour le genre pour ne pas tout refaire.
-    * Pour le calculer on reparcourt tout le dique pour retrouver le genre associé (s'il existe).
-    *
-    * <ul>
-    *   <li> Cela facilite les déplacements dans les répertoires.
-    *   <li> Cela permet de retrouver les mapings en cas d'erreur
-    * </ul>
-    *
-    * @param titre
-    *       cordialement
-    * @return
-    *       le genre correct ou empty si pas trouvé 
-    */
-   private Optional <Integer> searchGenreFromDisk(String titreDocumentaire) {
-       Optional< SmartFileName > sfn = fileSystemDao.getDocumentaireFileByTitre(titreDocumentaire);
-       if (sfn.isPresent()) {
-           File genreFolder = sfn.get().getCurrentFolder().getParentFile();
-           return Optional.of(genreService.getGenreIdFromFolderName(genreFolder));
-       }
-       return Optional.empty();
-   }
+   
    
    
 }

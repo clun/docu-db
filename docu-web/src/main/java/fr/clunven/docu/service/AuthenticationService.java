@@ -40,8 +40,10 @@ public class AuthenticationService implements UserDetailsService, DocuConstants 
         	log.info("User <" + userid + "> does not exist");
         	throw new UsernameNotFoundException("Cannot find user " + userid);
         }
+        
         UserDto dto = userDbDao.loadUserByUid(userid);
         log.info("User Loaded {}", dto);
+        
         List < GrantedAuthority > permissions = new ArrayList<>();
         permissions.add(new SimpleGrantedAuthority("ROLE_" + ROLE_USER));
         if (dto.isAdmin()) {

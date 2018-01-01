@@ -10,12 +10,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import fr.clunven.docu.web.domain.DocuConstants;
 
-@Controller("controller." + DocuConstants.VIEW_DOCUMENTAIRE_GEN)
-@RequestMapping("/" + DocuConstants.VIEW_DOCUMENTAIRE_GEN + ".htm")
-public class DocumentaireByGenreController extends BaseController {
+@Controller("controller." + DocuConstants.VIEW_SERIE_GEN)
+@RequestMapping("/" + DocuConstants.VIEW_SERIE_GEN + ".htm")
+public class SerieByGenreController extends BaseController {
 
-    public DocumentaireByGenreController() {
-        setSuccessView(VIEW_DOCUMENTAIRE_GEN);
+    public SerieByGenreController() {
+        setSuccessView(VIEW_SERIE_GEN);
         setCancelView(null);
     }
 
@@ -27,11 +27,12 @@ public class DocumentaireByGenreController extends BaseController {
         ModelAndView mav = renderPage(request);
         mav.addObject(BEAN_MENU, menuService.getMenuGenre());
 
+
         // Recherche de documentaire pour ce genre
         if (genre != null) {
             int genreInt = new Integer(genre);
             mav.addObject(BEAN_GENRE, docuService.findGenreById(genreInt));
-            mav.addObject(BEAN_DOCUBYGENRE, docuService.findDocumentairesByGenre(genreInt));
+            mav.addObject(BEAN_SERIEBYGENRE, docuService.findSeriesByGenre(genreInt));
         }
 
         return mav;

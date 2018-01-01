@@ -36,20 +36,19 @@
         </button>
         <ul class="dropdown-menu docuEditCombo" role="menu" style="width:40px">
           <li><a href="javascript:$('#modalEdit #docuNote').val('1');">
-  		  1<span class="glyphicon glyphicon-star" style="color:#DDDD00"></span>
-  		  </a></li>
-          <li><a href="javascript:$('#modalEdit #docuNote').val('2');">
-          2<span class="glyphicon glyphicon-star" style="color:#DDDD00"></span>
-          </a></li>
-          <li><a href="javascript:$('#modalEdit #docuNote').val('3');">
-          3<span class="glyphicon glyphicon-star" style="color:#DDDD00"></span>
-          </a></li>
-          <li><a href="javascript:$('#modalEdit #docuNote').val('4');">
-          4<span class="glyphicon glyphicon-star" style="color:#DDDD00"></span>
-          </a></li>
-          <li><a href="javascript:$('#modalEdit #docuNote').val('5');">
-          5<span class="glyphicon glyphicon-star" style="color:#DDDD00"></span>
-          </a></li>
+          	<i class="fa fa-star" style="color:#DDDD00"></i>
+          	<i class="fa fa-star" style="color:#DDDDDD"></i>
+          	<i class="fa fa-star" style="color:#DDDDDD"></i>
+          </span></a></li>
+          <li><a href="javascript:$('#modalEdit #docuNote').val('2');">1</span></a></li>
+          <li><a href="javascript:$('#modalEdit #docuNote').val('3');">1</span></a></li>
+          <li><a href="javascript:$('#modalEdit #docuNote').val('4');">1</span></a></li>
+          <li><a href="javascript:$('#modalEdit #docuNote').val('5');">1</span></a></li>
+          <li><a href="javascript:$('#modalEdit #docuNote').val('6');">1</span></a></li>
+          <li><a href="javascript:$('#modalEdit #docuNote').val('7');">1</span></a></li>
+          <li><a href="javascript:$('#modalEdit #docuNote').val('8');">1</span></a></li>
+          <li><a href="javascript:$('#modalEdit #docuNote').val('9');">1</span></a></li>
+          <li><a href="javascript:$('#modalEdit #docuNote').val('10');">1</span></a></li>
         </ul>
        </div>
        

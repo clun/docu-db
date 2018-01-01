@@ -53,6 +53,14 @@ public class SerieDbDao extends AbstractDaoSupport {
     /** Serie exist with name. */
     private static String QUERY_BYID = "SELECT * FROM t_serie WHERE id = ?";
     
+    /** Serie exist with name. */
+    private static String QUERY_COUNT_SERIE = "SELECT COUNT(*) FROM t_serie";
+    
+    /** Count value. */
+    public long count() {
+        return getJdbcTemplate().queryForObject(QUERY_COUNT_SERIE, new SingleColumnRowMapper<Long>());
+    }
+    
     /** Check existence from serie name (Creation Batch). */
     public boolean exist(String name) {
         return getJdbcTemplate().queryForObject(QUERY_EXIST_SERIE, Integer.class, 

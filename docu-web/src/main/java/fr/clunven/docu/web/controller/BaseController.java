@@ -10,6 +10,7 @@ import java.util.Locale;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import fr.clunven.docu.service.DocumentaireService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ import fr.clunven.docu.web.domain.DocuUser;
 
 /**
  * Injection of DAO(s).
- * 
+ *
  * @author Cedrick LUNVEN (@clunven)
  */
 public class BaseController implements ServletContextAware, DocuConstants {
@@ -53,13 +54,16 @@ public class BaseController implements ServletContextAware, DocuConstants {
 
     @Autowired
     protected DocumentaryDbDao documentaryDbDao;
-    
+
     @Autowired
     protected ReferentialDbDao referentialDbDao;
-    
+
     @Autowired
     protected MenuService menuService;
-    
+
+    @Autowired
+    protected DocumentaireService docuService;
+
     @Value("#{'${core.version:1.0}'}")
     protected String versionNumber = "0.0";
 
@@ -102,15 +106,15 @@ public class BaseController implements ServletContextAware, DocuConstants {
         flushMessages(request);
         ModelAndView mav = new ModelAndView(getSuccessView());
         mav.addObject(BEAN_USER, getUser());
-        
+
         List < FormatDto > formats = new ArrayList<>(referentialDbDao.getFormats().values());
         Collections.sort(formats);
         mav.addObject(BEAN_REF_FORMAT, formats);
-        
+
         List < LangueDto > langues = new ArrayList<>(referentialDbDao.getLangues().values());
         Collections.sort(langues);
         mav.addObject(BEAN_REF_LANGUE, langues);
-        
+
         List < PaysDto > pays = new ArrayList<>(referentialDbDao.getPays().values());
         Collections.sort(pays);
         mav.addObject(BEAN_REF_PAYS, pays);
@@ -260,7 +264,7 @@ public class BaseController implements ServletContextAware, DocuConstants {
 
     /**
      * Setter accessor for attribute 'successView'.
-     * 
+     *
      * @param successView
      *            new value for 'successView '
      */
@@ -270,7 +274,7 @@ public class BaseController implements ServletContextAware, DocuConstants {
 
     /**
      * Setter accessor for attribute 'cancelView'.
-     * 
+     *
      * @param cancelView
      *            new value for 'cancelView '
      */
@@ -280,7 +284,7 @@ public class BaseController implements ServletContextAware, DocuConstants {
 
     /**
      * Access cancel view.
-     * 
+     *
      * @return target cancel view mode.
      */
     public final String getCancelView() {
@@ -302,7 +306,7 @@ public class BaseController implements ServletContextAware, DocuConstants {
 
     /**
      * Setter accessor for attribute 'validator'.
-     * 
+     *
      * @param validator
      *            new value for 'validator '
      */

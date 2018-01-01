@@ -46,9 +46,9 @@ public class DocumentaireUpdateController extends BaseController {
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView showPage(HttpServletRequest req) throws Exception {
         ModelAndView mav = renderPage(req);
-        mav.addObject(BEAN_MENU, menuService.getMenuDocumentairesByGenre());
+        mav.addObject(BEAN_MENU, menuService.getMenuGenre());
         mav.addObject(BEAN_GENRE, referentialDbDao.getGenreById(23));
-        mav.addObject(BEAN_DOCUBYGENRE, menuService.getByGenre(23));
+        mav.addObject(BEAN_DOCUBYGENRE, docuService.findDocumentairesByGenre(23));
         return mav;
     }
 
@@ -94,8 +94,8 @@ public class DocumentaireUpdateController extends BaseController {
                     int genreInt = new Integer(item.getString());
                     dd.setGenreId(genreInt);
                     mav.addObject(BEAN_GENRE,       referentialDbDao.getGenreById(genreInt));
-                    mav.addObject(BEAN_MENU,        menuService.getMenuDocumentairesByGenre());
-                    mav.addObject(BEAN_DOCUBYGENRE, menuService.getByGenre(genreInt));
+                    mav.addObject(BEAN_MENU,        menuService.getMenuGenre());
+                    mav.addObject(BEAN_DOCUBYGENRE, docuService.findDocumentairesByGenre(genreInt));
 
                 } else if ("docuNote".equals(item.getFieldName()) && (!"".equals(item.getString()))) {
                     dd.setNote(new Integer(item.getString()));

@@ -11,59 +11,40 @@
 
 	<!-- Header Navbar: style can be found in header.less -->
 	<nav class="navbar navbar-static-top" role="navigation">
-		
-		<a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
-        	<span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </a>
-                
+		        
 		<div class="navbar-right">
         
 			<ul class="nav navbar-nav">
 			
 				<!-- User Account: style can be found in dropdown.less -->
-				<li class="dropdown user user-menu">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-					<span>
-						<img style="width:40px;height:40px;margin-top:-10px;margin-left:20px" src="<c:url value='img/login/user.png'/>" class="img-circle" alt="User Image" />
-						<i class="caret"></i>
-					</span>
-					</a>
-					
-					
-					<ul class="dropdown-menu">
-						<!-- User image -->
-						<li class="user-header" style="background-image:url('img/bg-login.png');height:155px;">
-						    <img src="<c:url value='img/login/user.png'/>" class="img-circle" alt="User Image" />
-							<br/><span style="color:white;font-weight:normal">
-							<sec:authentication property="principal.prenom" />&nbsp;
-							<sec:authentication property="principal.nom" />
-							<br> <small>email</small>
-							</span>
-						</li>
-						<!-- Menu Body -->
-						<li class="user-body" >
-						 <a href="#" class="btn btn-default btn-flat" style="text-align:left"><i class="fa fa-user"></i>Profile</a>
-						 <br/>
-						 <a href="#" class="btn btn-default btn-flat" style="text-align:left"><i class="fa fa-tags"></i>Wish List</a>
-						
-						</li>
-						 
-						<!-- Menu Footer-->
-						<li class="user-footer">
-							<div class="pull-left">
-								<a href="?lang=en"><img src="./img/icons/flag/english.png" style="height:25px"></a>
-								<a href="?lang=fr"><img src="./img/icons/flag/france.png" style="height:25px"></a>
-               
-							</div>
-							<div class="pull-right">
-								<a href="<c:url value="logout.htm" />" class="btn btn-default btn-flat">Sign out</a>
-							</div>
-						</li>
-					</ul></li>
+				<li class="user user-menu">
+						<a href="<c:url value="logout.htm" />" >
+		  					<i class="fa fa-sign-out"></i>
+							D&eacute;connexion
+						</a>
+					</li>
 			</ul>
 		</div>
+	</nav>
+	
+	<nav style="color:#F0F8FF;background-color:#222222;height:35px;
+		top:60px;width:100%;padding-left:10px;border-top:1px solid #888888;
+		border-bottom:1px solid #888888;padding:5px">
+		<a href="<c:url value='/home.htm'/>" style="font-weight: normal; color: #F0F8FF;padding-right:10px;padding-left:10px;">
+		  <i class="fa fa-home" style="color:#3c8dbc"></i>&nbsp;Home
+		</a> |
+	    <a href="<c:url value='/documentaireByGenre.htm?genre=23'/>" style="font-weight: normal; color: #F0F8FF;padding-right:10px;padding-left:10px;">
+			<i class="fa fa-film" style="color:#3c8dbc"></i>&nbsp;Documentaires
+	    </a> |	
+	    <a href="<c:url value='/seriesByGenre.htm?genre=7'/>" style="font-weight: normal; color: #F0F8FF;padding-right:10px;padding-left:10px;">
+		      <i class="fa fa-video-camera" style="color:#3c8dbc"></i>&nbsp;S&eacute;ries
+		</a> |
+		  <a href="<c:url value='/documentaire.htm'/>" style="font-weight: normal; color: #F0F8FF;padding-right:10px;padding-left:10px;">
+		      <i class="fa fa-list" style="color:#3c8dbc"></i>&nbsp;Rechercher
+			</a> |
+			 <a href="<c:url value='/batchSynchro.htm'/>"  style="font-weight: normal; color: #F0F8FF;padding-right:10px;padding-left:10px;">
+		       <i class="fa fa-users" style="color:#3c8dbc"></i>&nbsp;Batch Synchro
+			</a>
+
 	</nav>
 </header>

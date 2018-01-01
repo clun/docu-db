@@ -1,1 +1,3 @@
-<Context path="/" docBase="cannys.war"></Context>
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration>
+<Context path="/" docBase="docu.war"></Context>

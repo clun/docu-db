@@ -6,50 +6,42 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import fr.clunven.docu.dao.db.DocumentaryDbDao;
 import fr.clunven.docu.dao.db.ReferentialDbDao;
-import fr.clunven.docu.dao.db.dto.DocumentaireDetail;
+import fr.clunven.docu.dao.db.SerieDbDao;
 import fr.clunven.docu.dao.db.dto.GenreDto;
 import fr.clunven.docu.dao.db.dto.SubGenreDto;
 
 @Component("service.menu")
 public class MenuService {
-    
+
     @Autowired
     private ReferentialDbDao refDbDao;
-    
+
     @Autowired
-    private DocumentaryDbDao docuDbDao;
-    
+    private SerieDbDao serieDbDao;
+
     /**
      * Create Menu.
-     * 
-     * @return
-     *      menu inforation
+     *
+     * @return menu inforation
      */
-    public Map < GenreDto, List < SubGenreDto > > getMenuDocumentairesByGenre() {
+    public Map<GenreDto, List<SubGenreDto>> getMenuGenre() {
         return refDbDao.getMenu();
     }
-    
-    public List < DocumentaireDetail > getByGenre(int genre) {
-        List < DocumentaireDetail > returns = docuDbDao.getByGenre(genre);
-        for (DocumentaireDetail docu : returns) {
-            if (docu.getDescription().length() > 200) {
-                docu.setDescription(docu.getDescription().substring(0, 200) + " [...]");
-            } else {
-                // Right padding
-                int missing = 200 - docu.getDescription().length();
-                StringBuilder sb = new StringBuilder(docu.getDescription());
-                for (int i= 0;i<missing;i++) {
-                    sb.append("&nbsp;");
-                }
-                docu.setDescription(sb.toString());
-            }
-            if (docu.getTitre().length() < 35) {
-                docu.setTitre(docu.getTitre() + "<br/>&nbsp;");
-            }
-        }
-        return returns;
+
+    /**
+     * Create Menu.
+     *
+     * @return menu inforation
+     */
+    public Map<GenreDto, List<SubGenreDto>> getMenuGenreSerie() {
+        // Get series IDGENRE - GENRE - ICON - NBSERIE
+        List<SubGenreDto> seriesInMenu = serieDbDao.getSerieMenu();
+        // Select all genre
+
+        Map<GenreDto, List<SubGenreDto>> rawMenu = getMenuGenre();
+
+        return rawMenu;
     }
 
 }
